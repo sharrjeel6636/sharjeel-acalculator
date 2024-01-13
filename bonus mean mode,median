@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to calculate the mean of an array of integers
+float calculateMean(int arr[], int size) {
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return (float)sum / size;
+}
+
+// Function to compare elements for qsort (used in calculateMedian)
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+// Function to calculate the median of an array of integers
+float calculateMedian(int arr[], int size) {
+    qsort(arr, size, sizeof(int), compare);
+    if (size % 2 == 0) {
+        return (float)(arr[size / 2 - 1] + arr[size / 2]) / 2;
+    } else {
+        return (float)arr[size / 2];
+    }
+}
+
+// Function to calculate the mode of an array of integers
+int calculateMode(int arr[], int size) {
+    int maxCount = 0;
+    int mode = 0;
+    for (int i = 0; i < size; i++) {
+        int count = 0;
+        for (int j = 0; j < size; j++) {
+            if (arr[j] == arr[i]) {
+                count++;
+            }
+        }
+        if (count > maxCount) {
+            maxCount = count;
+            mode = arr[i];
+        }
+    }
+    return mode;
+}
+
+int main() {
+    int numbers[] = {1, 2, 2, 3, 4, 4, 4, 5};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+
+    // Calculate and print the mean
+    float mean = calculateMean(numbers, size);
+    printf("Mean: %.2f\n", mean);
+
+    // Calculate and print the median
+    float median = calculateMedian(numbers, size);
+    printf("Median: %.2f\n", median);
+
+    // Calculate and print the mode
+    int mode = calculateMode(numbers, size);
+    printf("Mode: %d\n", mode);
+
+    return 0;
+}
